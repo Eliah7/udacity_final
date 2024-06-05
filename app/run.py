@@ -36,7 +36,7 @@ def dog_detector(img_path):
     return ((prediction <= 268) & (prediction >= 151)) 
 
 def load_VGG19():
-    bottleneck_features = np.load('../bottleneck_features/DogVGG19Data.npz')
+    bottleneck_features = np.load('DogVGG19Data.npz')
     train_VGG19 = bottleneck_features['train']
     valid_VGG19 = bottleneck_features['valid']
     test_VGG19 = bottleneck_features['test']
