@@ -44,9 +44,9 @@ def load_VGG19():
     VGG19_model = Sequential()
     VGG19_model.add(GlobalAveragePooling2D(input_shape=train_VGG19.shape[1:]))
     VGG19_model.add(Dense(133, activation='softmax'))
-
-    VGG19_model.load_weights('weights.best.VGG19.keras')
     print(VGG19_model.summary())
+    VGG19_model.load_weights('weights.best.VGG19.keras')
+    
 
     return VGG19_model
 
@@ -70,9 +70,26 @@ app = Flask(__name__)
 model = load_VGG19()
 dog_names = pickle.load("../dog_names")
 
+
+def dog_breed_detector(img):
+    prediction = VGG19_predict_breed(img)
+  
+    is_human = face_detector(img)
+    perc_human = 100 * np.mean(is_human)
+    
+    is_dog = dog_detector(img)
+    perc_dog = 100 * np.mean(is_dog)
+    
+    if perc_human > 50:
+        return f"IMAGE is of a human that looks like {prediction}"
+    elif perc_dog > 50:
+        return f"IMAGE is of a human that looks like {prediction}"
+    else:
+        return "IMAGE is neither a dog nor a human"
+
 def classify_image(img_path):
     img = image.load_img(img_path, target_size=(224, 224))
-    decoded_preds = VGG19_predict_breed(img)
+    decoded_preds = dog_breed_detector(img)
     # img_array = image.img_to_array(img)
     # img_array = np.expand_dims(img_array, axis=0)
     # img_array = preprocess_input(img_array)
