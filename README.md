@@ -1,5 +1,5 @@
 # High-level overview
-In this project, we developed a dog breed classifier capable of identifying the breed of a dog from an image. The problem we aimed to solve is significant because accurate dog breed classification can have various applications, such as in veterinary care, pet adoption, and lost pet recovery. By automating this process with a robust machine learning model, we aim to provide an efficient and reliable solution for identifying dog breeds.
+In this project, I developed a dog breed classifier capable of identifying the breed of a dog from an image. The problem I aimed to solve is significant because accurate dog breed classification can have various applications, such as in veterinary care, pet adoption, and lost pet recovery. By automating this process with a robust machine learning model, I aim to provide an efficient and reliable solution for identifying dog breeds.
 
 # Description of Input Data
 The dataset used for this project is the Stanford Dogs Dataset, which contains over 6675 training images of 133 different dog breeds. The dataset is well-structured, with images labeled by breed. This labeling is crucial for training a supervised learning model. The images vary in size and quality, providing a realistic and challenging dataset for classification tasks.
@@ -18,7 +18,7 @@ The overall approach to solving the problem involved several key steps:
 4. Evaluation: Assessing the model's performance using appropriate metrics.
 
 # Discussion of the expected solution
-The proposed solution involves a multi-step process. Initially, we built a CNN from scratch to classify dog breeds. This provided a baseline accuracy. Given the complexity of the task, we then employed transfer learning using pre-trained models like VGG19 and ResNet50 to leverage their feature extraction capabilities. The overall workflow includes image preprocessing, feature extraction, and classification.
+The proposed solution involves a multi-step process. Initially, I built a CNN from scratch to classify dog breeds. This provided a baseline accuracy. Given the complexity of the task, I then employed transfer learning using pre-trained models like VGG19 and ResNet50 to leverage their feature extraction capabilities. The overall workflow includes image preprocessing, feature extraction, and classification.
 
 
 # Data Preprocessing
@@ -28,7 +28,7 @@ Data preprocessing involved several steps:
 2. Normalization: Scaling pixel values to a range of 0 to 1 to improve model convergence.
 
 # Modeling
-Initially, a CNN was built from scratch using Keras. However, to achieve higher accuracy, we employed transfer learning with pre-trained models such as VGG19 and ResNet50. These models have been pre-trained on large datasets and can extract features effectively.
+Initially, a CNN was built from scratch using Keras. However, to achieve higher accuracy, I employed transfer learning with pre-trained models such as VGG19 and ResNet50. These models have been pre-trained on large datasets and can extract features effectively.
 
 # Results
 The final model, using transfer learning, achieved a significantly higher accuracy compared to the CNN built from scratch. Key results included:
