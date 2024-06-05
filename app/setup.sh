@@ -1,0 +1,1 @@
+wget -P ../bottleneck_features https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/DogVGG19Data.npz
