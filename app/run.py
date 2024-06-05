@@ -67,8 +67,12 @@ def VGG19_predict_breed(img):
     return dog_breed
 
 app = Flask(__name__)
-model = pickle.load("../vgg19_model")
-dog_names = pickle.load("../dog_names")
+
+model_file = open("../vgg19_model", 'rb')
+dog_names_file = open("../dog_names", 'rb')
+
+model = pickle.load(model_file)
+dog_names = pickle.load(dog_names_file)
 
 
 def dog_breed_detector(img):
