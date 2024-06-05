@@ -45,7 +45,7 @@ def load_VGG19():
     VGG19_model.add(GlobalAveragePooling2D(input_shape=train_VGG19.shape[1:]))
     VGG19_model.add(Dense(133, activation='softmax'))
 
-    VGG19_model.load_weights('../saved_models/weights.best.VGG19.keras')
+    VGG19_model.load_weights('weights.best.VGG19.keras')
     print(VGG19_model.summary())
 
     return VGG19_model
