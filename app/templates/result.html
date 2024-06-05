@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Classification Result</title>
+  </head>
+  <body>
+    <h1>Classification Result</h1>
+    <ul>
+      {% for pred in preds %}
+      <li>{{ pred[1] }}: {{ pred[2]*100 }}%</li>
+      {% endfor %}
+    </ul>
+    <a href="/">Upload Another Image</a>
+  </body>
+</html>
