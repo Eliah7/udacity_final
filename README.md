@@ -1,116 +1,68 @@
-[//]: # (Image References)
+# High-level overview
+In this project, we developed a dog breed classifier capable of identifying the breed of a dog from an image. The problem we aimed to solve is significant because accurate dog breed classification can have various applications, such as in veterinary care, pet adoption, and lost pet recovery. By automating this process with a robust machine learning model, we aim to provide an efficient and reliable solution for identifying dog breeds.
 
-[image1]: ./images/sample_dog_output.png "Sample Output"
-[image2]: ./images/vgg16_model.png "VGG-16 Model Keras Layers"
-[image3]: ./images/vgg16_model_draw.png "VGG16 Model Figure"
+# Description of Input Data
+The dataset used for this project is the Stanford Dogs Dataset, which contains over 6675 training images of 133 different dog breeds. The dataset is well-structured, with images labeled by breed. This labeling is crucial for training a supervised learning model. The images vary in size and quality, providing a realistic and challenging dataset for classification tasks.
+
+### Variables in the dataset:
+
+- Images: The primary data consisting of photographs of dogs.
+- Labels: The breed of each dog, which serves as the target variable for our classification model.
+
+# Strategy for solving the problem
+The overall approach to solving the problem involved several key steps:
+
+1. Data Exploration: Understanding the dataset through exploratory data analysis (EDA).
+2. Data Preprocessing: Cleaning and preparing the data for model training.
+3. Model Development: Building a Convolutional Neural Network (CNN) from scratch, followed by using transfer learning with pre-trained models.
+4. Evaluation: Assessing the model's performance using appropriate metrics.
+
+# Discussion of the expected solution
+The proposed solution involves a multi-step process. Initially, we built a CNN from scratch to classify dog breeds. This provided a baseline accuracy. Given the complexity of the task, we then employed transfer learning using pre-trained models like VGG19 and ResNet50 to leverage their feature extraction capabilities. The overall workflow includes image preprocessing, feature extraction, and classification.
 
 
-## Project Overview
+# Data Preprocessing
+Data preprocessing involved several steps:
 
-Welcome to the Convolutional Neural Networks (CNN) project in the AI Nanodegree! In this project, you will learn how to build a pipeline that can be used within a web or mobile app to process real-world, user-supplied images.  Given an image of a dog, your algorithm will identify an estimate of the canine’s breed.  If supplied an image of a human, the code will identify the resembling dog breed.  
+1. Resizing Images: Ensuring all images are of a consistent size (224x224 pixels) for model input.
+2. Normalization: Scaling pixel values to a range of 0 to 1 to improve model convergence.
 
-![Sample Output][image1]
+# Modeling
+Initially, a CNN was built from scratch using Keras. However, to achieve higher accuracy, we employed transfer learning with pre-trained models such as VGG19 and ResNet50. These models have been pre-trained on large datasets and can extract features effectively.
 
-Along with exploring state-of-the-art CNN models for classification, you will make important design decisions about the user experience for your app.  Our goal is that by completing this lab, you understand the challenges involved in piecing together a series of models designed to perform various tasks in a data processing pipeline.  Each model has its strengths and weaknesses, and engineering a real-world application often involves solving many problems without a perfect answer.  Your imperfect solution will nonetheless create a fun user experience!
+# Results
+The final model, using transfer learning, achieved a significantly higher accuracy compared to the CNN built from scratch. Key results included:
 
-## Project Instructions
+Accuracy: 85% on the test set.
 
-### Instructions
+# Deployment
+The final model was deployed using the flask framework to provide an interface where a user can upload an image and the model return the classification of the model.
 
-1. Clone the repository and navigate to the downloaded folder.
-```	
-git clone https://github.com/udacity/dog-project.git
-cd dog-project
+To run the model do the following:
+1. Navigate to the app directory
+` cd app`
+2. Make the setup.sh executable and execute it
 ```
-
-2. Download the [dog dataset](https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/dogImages.zip).  Unzip the folder and place it in the repo, at location `path/to/dog-project/dogImages`. 
-
-3. Download the [human dataset](https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/lfw.zip).  Unzip the folder and place it in the repo, at location `path/to/dog-project/lfw`.  If you are using a Windows machine, you are encouraged to use [7zip](http://www.7-zip.org/) to extract the folder. 
-
-4. Donwload the [VGG-16 bottleneck features](https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/DogVGG16Data.npz) for the dog dataset.  Place it in the repo, at location `path/to/dog-project/bottleneck_features`.
-
-5. (Optional) __If you plan to install TensorFlow with GPU support on your local machine__, follow [the guide](https://www.tensorflow.org/install/) to install the necessary NVIDIA software on your system.  If you are using an EC2 GPU instance, you can skip this step.
-
-6. (Optional) **If you are running the project on your local machine (and not using AWS)**, create (and activate) a new environment.
-
-	- __Linux__ (to install with __GPU support__, change `requirements/dog-linux.yml` to `requirements/dog-linux-gpu.yml`): 
-	```
-	conda env create -f requirements/dog-linux.yml
-	source activate dog-project
-	```  
-	- __Mac__ (to install with __GPU support__, change `requirements/dog-mac.yml` to `requirements/dog-mac-gpu.yml`): 
-	```
-	conda env create -f requirements/dog-mac.yml
-	source activate dog-project
-	```  
-	**NOTE:** Some Mac users may need to install a different version of OpenCV
-	```
-	conda install --channel https://conda.anaconda.org/menpo opencv3
-	```
-	- __Windows__ (to install with __GPU support__, change `requirements/dog-windows.yml` to `requirements/dog-windows-gpu.yml`):  
-	```
-	conda env create -f requirements/dog-windows.yml
-	activate dog-project
-	```
-
-7. (Optional) **If you are running the project on your local machine (and not using AWS)** and Step 6 throws errors, try this __alternative__ step to create your environment.
-
-	- __Linux__ or __Mac__ (to install with __GPU support__, change `requirements/requirements.txt` to `requirements/requirements-gpu.txt`): 
-	```
-	conda create --name dog-project python=3.5
-	source activate dog-project
-	pip install -r requirements/requirements.txt
-	```
-	**NOTE:** Some Mac users may need to install a different version of OpenCV
-	```
-	conda install --channel https://conda.anaconda.org/menpo opencv3
-	```
-	- __Windows__ (to install with __GPU support__, change `requirements/requirements.txt` to `requirements/requirements-gpu.txt`):  
-	```
-	conda create --name dog-project python=3.5
-	activate dog-project
-	pip install -r requirements/requirements.txt
-	```
-	
-8. (Optional) **If you are using AWS**, install Tensorflow.
+chmod +x setup.sh
+./setup.sh
 ```
-sudo python3 -m pip install -r requirements/requirements-gpu.txt
-```
-	
-9. Switch [Keras backend](https://keras.io/backend/) to TensorFlow.
-	- __Linux__ or __Mac__: 
-		```
-		KERAS_BACKEND=tensorflow python -c "from keras import backend"
-		```
-	- __Windows__: 
-		```
-		set KERAS_BACKEND=tensorflow
-		python -c "from keras import backend"
-		```
+3. Install all the required libraries
+`pip install -r requirements.sh`
+4. Run the app and use it http:localhost:5000
+`python run.py`
 
-10. (Optional) **If you are running the project on your local machine (and not using AWS)**, create an [IPython kernel](http://ipython.readthedocs.io/en/stable/install/kernel_install.html) for the `dog-project` environment. 
-```
-python -m ipykernel install --user --name dog-project --display-name "dog-project"
-```
+# Conclusion 
+This project successfully developed a dog breed classifier with high accuracy using transfer learning. The model can be applied in various domains where identifying dog breeds quickly and accurately is essential. Our findings demonstrate the effectiveness of transfer learning in image classification tasks, particularly with diverse and complex datasets like dog breeds.
 
-11. Open the notebook.
-```
-jupyter notebook dog_app.ipynb
-```
 
-12. (Optional) **If you are running the project on your local machine (and not using AWS)**, before running code, change the kernel to match the dog-project environment by using the drop-down menu (**Kernel > Change kernel > dog-project**). Then, follow the instructions in the notebook.
 
-__NOTE:__ While some code has already been implemented to get you started, you will need to implement additional functionality to successfully answer all of the questions included in the notebook. __Unless requested, do not modify code that has already been included.__
+# Improvements
+Future improvements could include:
 
-## Evaluation
+1. Incorporating more data: Expanding the dataset to include more images for underrepresented breeds.
+2. Advanced augmentation techniques: Using more sophisticated data augmentation to further improve model robustness.
+3. Model ensemble: Combining predictions from multiple models to improve accuracy and generalization.
 
-Your project will be reviewed by a Udacity reviewer against the CNN project [rubric](https://review.udacity.com/#!/rubrics/810/view).  Review this rubric thoroughly, and self-evaluate your project before submission.  All criteria found in the rubric must meet specifications for you to pass.
+# Acknowledgment
+I thank Udacity and Vodafone for making it possible for me to do this project.
 
-## Project Submission
-
-When you are ready to submit your project, collect the following files and compress them into a single archive for upload:
-- The `dog_app.ipynb` file with fully functional code, all code cells executed and displaying output, and all questions answered.
-- An HTML or PDF export of the project notebook with the name `report.html` or `report.pdf`.
-- Any additional images used for the project that were not supplied to you for the project. __Please do not include the project data sets in the `dogImages/` or `lfw/` folders.  Likewise, please do not include the `bottleneck_features/` folder.__
-
-Alternatively, your submission could consist of the GitHub link to your repository.
