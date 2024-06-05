@@ -33,7 +33,7 @@ Initially, a CNN was built from scratch using Keras. However, to achieve higher 
 # Results
 The final model, using transfer learning, achieved a significantly higher accuracy compared to the CNN built from scratch. Key results included:
 
-Accuracy: 85% on the test set.
+Accuracy: 83% on the test set.
 
 # Deployment
 The final model was deployed using the flask framework to provide an interface where a user can upload an image and the model return the classification of the model.
