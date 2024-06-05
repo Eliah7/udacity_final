@@ -1,6 +1,20 @@
 # High-level overview
 In this project, I developed a dog breed classifier capable of identifying the breed of a dog from an image. The problem I aimed to solve is significant because accurate dog breed classification can have various applications, such as in veterinary care, pet adoption, and lost pet recovery. By automating this process with a robust machine learning model, I aim to provide an efficient and reliable solution for identifying dog breeds.
 
+# Metrics
+The metric that was used in this project is the accuracy metric.
+## Accuracy
+This metric refers to how close a result or prediction is to the true or correct value. It is a measure of correctness or the level of agreement between a model's output and the actual expected outcome.
+
+Accuracy is a commonly used metric to evaluate the performance of Convolutional Neural Networks (CNNs), especially in classification tasks. Here's a detailed explanation of the accuracy metric in this context:
+
+##Definition
+Accuracy is the ratio of the number of correct predictions to the total number of predictions. It is calculated as:
+
+```
+Accuracy = Number of Correct Predictions/Total Number of Predictions
+```
+
 # Description of Input Data
 The dataset used for this project is the Stanford Dogs Dataset, which contains over 6675 training images of 133 different dog breeds. The dataset is well-structured, with images labeled by breed. This labeling is crucial for training a supervised learning model. The images vary in size and quality, providing a realistic and challenging dataset for classification tasks.
 
@@ -8,6 +22,14 @@ The dataset used for this project is the Stanford Dogs Dataset, which contains o
 
 - Images: The primary data consisting of photographs of dogs.
 - Labels: The breed of each dog, which serves as the target variable for our classification model.
+
+# EDA
+The Image Dimensions Distribution visualization helps in understanding the variability in the widths and heights of images in the dataset. By plotting histograms or box plots of image dimensions, one can detect whether there is a significant variation in image sizes. This information is crucial for preprocessing steps, such as resizing images to a consistent size before feeding them into the CNN. It also helps in identifying if any images have unusual dimensions that could potentially cause issues during training. Overall, analyzing image dimensions ensures that the data is uniformly prepared for optimal model performance. In this model all images were resized to 224 x 224.
+
+![alt text](https://github.com/Eliah/[reponame]/blob/[branch]/image.jpg?raw=true)
+
+
+
 
 # Strategy for solving the problem
 The overall approach to solving the problem involved several key steps:
