@@ -1,5 +1,5 @@
 Flask
-keras==2.0.2
+keras==2.14.0
 tensorflow
 numpy
 pillow
