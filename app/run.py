@@ -35,17 +35,17 @@ def dog_detector(img_path):
     prediction = ResNet50_predict_labels(img_path)
     return ((prediction <= 268) & (prediction >= 151)) 
 
-def load_VGG19():
-    bottleneck_features = np.load('DogVGG19Data.npz')
-    train_VGG19 = bottleneck_features['train']
-    valid_VGG19 = bottleneck_features['valid']
-    test_VGG19 = bottleneck_features['test']
+# def load_VGG19():
+#     bottleneck_features = np.load('DogVGG19Data.npz')
+#     train_VGG19 = bottleneck_features['train']
+#     valid_VGG19 = bottleneck_features['valid']
+#     test_VGG19 = bottleneck_features['test']
 
-    VGG19_model = Sequential()
-    VGG19_model.add(GlobalAveragePooling2D(input_shape=train_VGG19.shape[1:]))
-    VGG19_model.add(Dense(133, activation='softmax'))
-    print(VGG19_model.summary())
-    VGG19_model.load_weights('weights.best.VGG19.keras')
+#     VGG19_model = Sequential()
+#     VGG19_model.add(GlobalAveragePooling2D(input_shape=train_VGG19.shape[1:]))
+#     VGG19_model.add(Dense(133, activation='softmax'))
+#     print(VGG19_model.summary())
+#     VGG19_model.load_weights('weights.best.VGG19.keras')
     
 
     return VGG19_model
@@ -67,7 +67,7 @@ def VGG19_predict_breed(img):
     return dog_breed
 
 app = Flask(__name__)
-model = load_VGG19()
+model = pickle.load("../vgg19_model")
 dog_names = pickle.load("../dog_names")
 
 
