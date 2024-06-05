@@ -20,34 +20,28 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
+from PIL import Image
+
+
+ResNet50_model = ResNet50(weights='imagenet')
+
 def face_detector(img):
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    face_cascade = cv2.CascadeClassifier('../haarcascades/haarcascade_frontalface_alt.xml')
-    faces = face_cascade.detectMultiScale(gray)
-    return len(faces) > 0
+    if img is None:
+        print("Image is None")
+    else:
+        # Convert the image to grayscale
+        # gray = img.convert("L")
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        face_cascade = cv2.CascadeClassifier('../haarcascades/haarcascade_frontalface_alt.xml')
+        faces = face_cascade.detectMultiScale(gray)
+        return len(faces) > 0
 
 def ResNet50_predict_labels(img):
-    ResNet50_model = ResNet50(weights='imagenet')
     return np.argmax(ResNet50_model.predict(img))
 
 def dog_detector(img):
     prediction = ResNet50_predict_labels(img)
     return ((prediction <= 268) & (prediction >= 151)) 
-
-# def load_VGG19():
-#     bottleneck_features = np.load('DogVGG19Data.npz')
-#     train_VGG19 = bottleneck_features['train']
-#     valid_VGG19 = bottleneck_features['valid']
-#     test_VGG19 = bottleneck_features['test']
-
-#     VGG19_model = Sequential()
-#     VGG19_model.add(GlobalAveragePooling2D(input_shape=train_VGG19.shape[1:]))
-#     VGG19_model.add(Dense(133, activation='softmax'))
-#     print(VGG19_model.summary())
-#     VGG19_model.load_weights('weights.best.VGG19.keras')
-    
-
-    # return VGG19_model
 
 def path_to_tensor(img):
     try:
@@ -59,7 +53,7 @@ def path_to_tensor(img):
         return None
     
 def VGG19_predict_breed(img):
-    bottleneck_feature = extract_VGG19(path_to_tensor(img))
+    bottleneck_feature = extract_VGG19(model, path_to_tensor(img))
     predicted_vector = model.predict(bottleneck_feature)
     dog_path_name = dog_names[np.argmax(predicted_vector)]
     _, dog_breed = dog_path_name.split(".")
@@ -67,14 +61,19 @@ def VGG19_predict_breed(img):
 
 app = Flask(__name__)
 
-model_file = open("../vgg19_model", 'rb')
-dog_names_file = open("../dog_names", 'rb')
+model_file = open("vgg19_model", 'rb')
+dog_names_file = open("dog_names", 'rb')
 
 model = pickle.load(model_file)
+print(model.summary())
 dog_names = pickle.load(dog_names_file)
 
 
 def dog_breed_detector(img):
+    if img is None:
+        print(">>>> Image is None")
+    print(f">>>{img}")
+
     prediction = VGG19_predict_breed(img)
   
     is_human = face_detector(img)
@@ -93,12 +92,6 @@ def dog_breed_detector(img):
 def classify_image(img_path):
     img = image.load_img(img_path, target_size=(224, 224))
     decoded_preds = dog_breed_detector(img)
-    # img_array = image.img_to_array(img)
-    # img_array = np.expand_dims(img_array, axis=0)
-    # img_array = preprocess_input(img_array)
-
-    # preds = model.predict(img_array)
-    # decoded_preds = decode_predictions(preds, top=3)[0]
     return decoded_preds
 
 
@@ -111,7 +104,7 @@ def upload_file():
         if file.filename == '':
             return redirect(request.url)
         if file:
-            file_path = os.path.join('uploads', file.filename)
+            file_path = os.path.join('./uploads', file.filename)
             file.save(file_path)
             preds = classify_image(file_path)
             return render_template('result.html', preds=preds)
