@@ -20,8 +20,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-def face_detector(img_path):
-    img = cv2.imread(img_path)
+def face_detector(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     face_cascade = cv2.CascadeClassifier('../haarcascades/haarcascade_frontalface_alt.xml')
     faces = face_cascade.detectMultiScale(gray)
@@ -31,8 +30,8 @@ def ResNet50_predict_labels(img):
     ResNet50_model = ResNet50(weights='imagenet')
     return np.argmax(ResNet50_model.predict(img))
 
-def dog_detector(img_path):
-    prediction = ResNet50_predict_labels(img_path)
+def dog_detector(img):
+    prediction = ResNet50_predict_labels(img)
     return ((prediction <= 268) & (prediction >= 151)) 
 
 # def load_VGG19():
