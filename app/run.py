@@ -66,6 +66,22 @@ def VGG19_predict_breed(img):
     _, dog_breed = dog_path_name.split(".")
     return dog_breed
 
+app = Flask(__name__)
+model = load_VGG19()
+dog_names = pickle.load("../dog_names")
+
+def classify_image(img_path):
+    img = image.load_img(img_path, target_size=(224, 224))
+    decoded_preds = VGG19_predict_breed(img)
+    # img_array = image.img_to_array(img)
+    # img_array = np.expand_dims(img_array, axis=0)
+    # img_array = preprocess_input(img_array)
+
+    # preds = model.predict(img_array)
+    # decoded_preds = decode_predictions(preds, top=3)[0]
+    return decoded_preds
+
+
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -81,21 +97,8 @@ def upload_file():
             return render_template('result.html', preds=preds)
     return render_template('index.html')
 
-def classify_image(img_path):
-    img = image.load_img(img_path, target_size=(224, 224))
-    decoded_preds = VGG19_predict_breed(img)
-    # img_array = image.img_to_array(img)
-    # img_array = np.expand_dims(img_array, axis=0)
-    # img_array = preprocess_input(img_array)
-
-    # preds = model.predict(img_array)
-    # decoded_preds = decode_predictions(preds, top=3)[0]
-    return decoded_preds
 
 
-app = Flask(__name__)
-model = load_VGG19()
-dog_names = pickle.load("../dog_names")
 
 # Print statistics about the dataset
 print(f'There are {len(dog_names)} total dog categories.')
