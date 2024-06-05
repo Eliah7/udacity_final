@@ -48,7 +48,7 @@ def dog_detector(img_path):
 #     VGG19_model.load_weights('weights.best.VGG19.keras')
     
 
-    return VGG19_model
+    # return VGG19_model
 
 def path_to_tensor(img):
     try:
